@@ -1,5 +1,7 @@
 import { getCurrentUserId } from "@/lib/currentUser";
 import { getSupabaseServerClient } from "@/lib/supabase";
+import { PushRegistration } from "@/components/push/PushRegistration";
+import styles from "./page.module.css";
 
 // The board reflects live shared state - it must never be frozen as a
 // static snapshot from build time.
@@ -13,9 +15,12 @@ export default async function HomePage() {
     : { data: null };
 
   return (
-    <main style={{ padding: "2rem" }}>
-      <h1>Hallo, {user?.name ?? "Unbekannt"}!</h1>
-      <p>Das Nestwork-Board kommt als Nächstes.</p>
+    <main className={styles.wrap}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Hallo, {user?.name ?? "Unbekannt"}!</h1>
+        <p className={styles.subtitle}>Das Nestwork-Board kommt als Nächstes.</p>
+        <PushRegistration />
+      </div>
     </main>
   );
 }
