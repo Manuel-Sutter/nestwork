@@ -1,0 +1,21 @@
+:root {
+  --color-bg: #fdf6f0;
+  --color-accent: #f4a97b;
+  --color-accent-strong: #e8875a;
+  --color-text: #2c2420;
+  --color-card: #ffffff;
+  --color-border: #f0e2d6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
