@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -10,6 +10,13 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Nestwork",
   description: "Familien-Aufgabenplanung",
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fdf6f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1512" },
+  ],
 };
 
 export default function RootLayout({

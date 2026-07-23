@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { getGreeting } from "@/lib/greeting";
 import { PushRegistration } from "@/components/push/PushRegistration";
 import styles from "./Hero.module.css";
@@ -19,6 +20,7 @@ export function Hero({ name }: { name: string }) {
         <p className={styles.subtitle}>Was steht heute an?</p>
       </div>
       <div className={styles.orb} />
+      <ChevronDown className={styles.scrollHint} size={20} aria-hidden="true" />
     </section>
   );
 }

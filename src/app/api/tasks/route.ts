@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
   const category = isCategoryId(body?.category) ? body.category : "sonstiges";
   const priority: Priority = PRIORITIES.includes(body?.priority) ? body.priority : "medium";
-  const assigneeId = typeof body?.assigneeId === "string" ? body.assigneeId : null;
+  const assigneeId = typeof body?.assignee_id === "string" ? body.assignee_id : null;
 
   const supabase = getSupabaseServerClient();
   const { data: task, error } = await supabase

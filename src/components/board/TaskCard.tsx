@@ -1,5 +1,6 @@
 "use client";
 
+import { useDraggable } from "@dnd-kit/core";
 import { MessageSquare } from "lucide-react";
 import { CATEGORIES } from "@/lib/categories";
 import { PRIORITY_LABELS, type Priority } from "@/lib/priority";
@@ -13,10 +14,18 @@ const PRIORITY_CLASS: Record<Priority, string> = {
 };
 
 export function TaskCard({ task, onOpen }: { task: Task; onOpen: () => void }) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: task.id });
   const CategoryIcon = CATEGORIES[task.category].icon;
 
   return (
-    <button className={styles.card} onClick={onOpen}>
+    <button
+      ref={setNodeRef}
+      className={styles.card}
+      style={{ opacity: isDragging ? 0.4 : 1 }}
+      onClick={onOpen}
+      {...listeners}
+      {...attributes}
+    >
       <div className={styles.topRow}>
         <span className={styles.category}>
           <CategoryIcon size={14} />

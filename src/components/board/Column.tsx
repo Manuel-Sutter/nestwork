@@ -1,5 +1,6 @@
 "use client";
 
+import { useDroppable } from "@dnd-kit/core";
 import { TASK_STATUS_LABELS, type TaskStatus } from "@/lib/taskStatus";
 import type { Task } from "@/lib/tasks";
 import { TaskCard } from "./TaskCard";
@@ -14,8 +15,13 @@ export function Column({
   tasks: Task[];
   onOpen: (taskId: string) => void;
 }) {
+  const { setNodeRef, isOver } = useDroppable({ id: status });
+
   return (
-    <div className={styles.column}>
+    <div
+      ref={setNodeRef}
+      className={`${styles.column} ${isOver ? styles.columnOver : ""}`}
+    >
       <div className={styles.header}>
         <span className={styles.title}>{TASK_STATUS_LABELS[status]}</span>
         <span className={styles.count}>{tasks.length}</span>

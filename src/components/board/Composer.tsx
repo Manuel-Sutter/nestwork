@@ -16,16 +16,17 @@ export function Composer({ onCreated }: { onCreated: (taskId: string) => void })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim() || submitting) return;
+    const submittedTitle = title.trim();
+    if (!submittedTitle || submitting) return;
     setSubmitting(true);
+    setTitle("");
     try {
       const res = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title: submittedTitle }),
       });
       const data = await res.json();
-      setTitle("");
       if (data?.task?.id) onCreated(data.task.id);
     } finally {
       setSubmitting(false);

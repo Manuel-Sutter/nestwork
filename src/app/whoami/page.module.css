@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  background: linear-gradient(160deg, var(--color-bg), #fbe6d4);
+  background: linear-gradient(160deg, var(--color-bg), var(--color-bg-gradient-end));
 }
 
 .title {

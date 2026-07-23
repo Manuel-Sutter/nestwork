@@ -39,8 +39,8 @@ export async function PATCH(
   if (typeof body?.priority === "string" && PRIORITIES.includes(body.priority)) {
     updates.priority = body.priority;
   }
-  if ("assigneeId" in (body ?? {})) {
-    updates.assignee_id = body.assigneeId;
+  if ("assignee_id" in (body ?? {})) {
+    updates.assignee_id = body.assignee_id;
   }
 
   if (Object.keys(updates).length === 0) {

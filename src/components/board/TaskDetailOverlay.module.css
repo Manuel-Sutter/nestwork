@@ -60,7 +60,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #8a7a6e;
+  color: var(--color-muted);
 }
 
 .chips {

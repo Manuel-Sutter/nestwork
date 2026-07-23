@@ -5,9 +5,14 @@
   min-width: 320px;
   flex: 1;
   scroll-snap-align: start;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--color-column-panel);
   border-radius: 20px;
   padding: 1rem;
+  transition: background 0.15s ease;
+}
+
+.columnOver {
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-column-panel));
 }
 
 @media (max-width: 640px) {
@@ -30,7 +35,7 @@
 }
 
 .count {
-  color: #8a7a6e;
+  color: var(--color-muted);
   font-size: 0.875rem;
   background: var(--color-card);
   padding: 0.125rem 0.5rem;
@@ -44,7 +49,7 @@
 }
 
 .empty {
-  color: #b8a99b;
+  color: var(--color-muted-light);
   font-size: 0.875rem;
   text-align: center;
   padding: 1.5rem 0;

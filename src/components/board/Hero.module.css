@@ -29,7 +29,7 @@
 }
 
 .subtitle {
-  color: #b8a99b;
+  color: var(--color-muted-light);
   margin: 0;
   font-size: 1.0625rem;
 }
@@ -40,4 +40,21 @@
   border-radius: 50%;
   background: radial-gradient(circle at 50% 30%, #ffe1c2, var(--color-accent) 55%, var(--color-accent-strong) 100%);
   box-shadow: 0 0 70px 18px rgba(244, 169, 123, 0.4);
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 1.5rem;
+  color: var(--color-muted-light);
+  animation: breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }

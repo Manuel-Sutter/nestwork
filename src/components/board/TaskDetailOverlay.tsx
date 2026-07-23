@@ -13,22 +13,13 @@ export function TaskDetailOverlay({
   task,
   users,
   onClose,
-  onChanged,
+  onPatch,
 }: {
   task: Task;
   users: UserOption[];
   onClose: () => void;
-  onChanged: () => void;
+  onPatch: (fields: Record<string, unknown>) => void;
 }) {
-  async function patch(fields: Record<string, unknown>) {
-    await fetch(`/api/tasks/${task.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fields),
-    });
-    onChanged();
-  }
-
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <div className={styles.sheet} onClick={(e) => e.stopPropagation()}>
@@ -48,7 +39,7 @@ export function TaskDetailOverlay({
                 <button
                   key={id}
                   className={`${styles.chip} ${task.category === id ? styles.chipSelected : ""}`}
-                  onClick={() => patch({ category: id as CategoryId })}
+                  onClick={() => onPatch({ category: id as CategoryId })}
                 >
                   <Icon size={14} />
                   {CATEGORIES[id].label}
@@ -65,7 +56,7 @@ export function TaskDetailOverlay({
               <button
                 key={p}
                 className={`${styles.chip} ${task.priority === p ? styles.chipSelected : ""}`}
-                onClick={() => patch({ priority: p as Priority })}
+                onClick={() => onPatch({ priority: p as Priority })}
               >
                 {PRIORITY_LABELS[p]}
               </button>
@@ -78,7 +69,7 @@ export function TaskDetailOverlay({
           <div className={styles.chips}>
             <button
               className={`${styles.chip} ${!task.assignee_id ? styles.chipSelected : ""}`}
-              onClick={() => patch({ assigneeId: null })}
+              onClick={() => onPatch({ assignee_id: null, assignee: null })}
             >
               Nicht zugewiesen
             </button>
@@ -86,7 +77,7 @@ export function TaskDetailOverlay({
               <button
                 key={u.id}
                 className={`${styles.chip} ${task.assignee_id === u.id ? styles.chipSelected : ""}`}
-                onClick={() => patch({ assigneeId: u.id })}
+                onClick={() => onPatch({ assignee_id: u.id, assignee: { name: u.name, color: u.color } })}
               >
                 <span
                   className={styles.avatarChip}
@@ -107,7 +98,7 @@ export function TaskDetailOverlay({
               <button
                 key={s}
                 className={`${styles.chip} ${task.status === s ? styles.chipSelected : ""}`}
-                onClick={() => patch({ status: s as TaskStatus })}
+                onClick={() => onPatch({ status: s as TaskStatus })}
               >
                 {TASK_STATUS_LABELS[s]}
               </button>

@@ -1,12 +1,51 @@
 :root {
   --color-bg: #fdf6f0;
+  --color-bg-gradient-end: #fbe6d4;
   --color-accent: #f4a97b;
   --color-accent-strong: #e8875a;
   --color-text: #2c2420;
   --color-card: #ffffff;
   --color-border: #f0e2d6;
+  --color-muted: #8a7a6e;
+  --color-muted-light: #b8a99b;
+  --color-error: #c0392b;
+  --color-column-panel: rgba(255, 255, 255, 0.45);
+  --color-tooltip-bg: #2c2420;
+  --color-tooltip-text: #ffffff;
   --shadow-card: 0 12px 32px -12px rgba(44, 36, 32, 0.18);
   --shadow-card-hover: 0 18px 40px -14px rgba(44, 36, 32, 0.24);
+
+  --priority-low-bg: #eef3ea;
+  --priority-low-text: #5b7a4a;
+  --priority-medium-bg: #fbeee0;
+  --priority-medium-text: var(--color-accent-strong);
+  --priority-high-bg: #fbe3e0;
+  --priority-high-text: #c0392b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1c1512;
+    --color-bg-gradient-end: #2a1f16;
+    --color-accent: #f4a97b;
+    --color-accent-strong: #f7b48a;
+    --color-text: #f5ece4;
+    --color-card: #2a211c;
+    --color-border: #3d322b;
+    --color-muted: #a8988a;
+    --color-muted-light: #7a6c60;
+    --color-error: #e0776a;
+    --color-column-panel: rgba(255, 255, 255, 0.04);
+    --shadow-card: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+    --shadow-card-hover: 0 18px 40px -14px rgba(0, 0, 0, 0.6);
+
+    --priority-low-bg: #23301d;
+    --priority-low-text: #a3cc8a;
+    --priority-medium-bg: #3a2a1a;
+    --priority-medium-text: var(--color-accent);
+    --priority-high-bg: #3a1f1c;
+    --priority-high-text: #e0776a;
+  }
 }
 
 * {
@@ -18,6 +57,10 @@ input,
 select,
 textarea {
   font-family: inherit;
+}
+
+html {
+  color-scheme: light dark;
 }
 
 html,
