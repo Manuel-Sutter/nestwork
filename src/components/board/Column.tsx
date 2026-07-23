@@ -5,18 +5,14 @@ import type { Task } from "@/lib/tasks";
 import { TaskCard } from "./TaskCard";
 import styles from "./Column.module.css";
 
-type UserOption = { id: string; name: string; color: string };
-
 export function Column({
   status,
   tasks,
-  users,
-  onChanged,
+  onOpen,
 }: {
   status: TaskStatus;
   tasks: Task[];
-  users: UserOption[];
-  onChanged: () => void;
+  onOpen: (taskId: string) => void;
 }) {
   return (
     <div className={styles.column}>
@@ -27,7 +23,7 @@ export function Column({
       <div className={styles.cards}>
         {tasks.length === 0 && <p className={styles.empty}>Keine Aufgaben</p>}
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} users={users} onChanged={onChanged} />
+          <TaskCard key={task.id} task={task} onOpen={() => onOpen(task.id)} />
         ))}
       </div>
     </div>
