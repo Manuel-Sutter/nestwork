@@ -1,0 +1,43 @@
+.hero {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.pushIcon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.greeting {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  color: #b8a99b;
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.orb {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 30%, #ffe1c2, var(--color-accent) 55%, var(--color-accent-strong) 100%);
+  box-shadow: 0 0 70px 18px rgba(244, 169, 123, 0.4);
+}

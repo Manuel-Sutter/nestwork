@@ -25,3 +25,36 @@
   font-size: 0.875rem;
   margin: 0;
 }
+
+.compactWrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.compactButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-card);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.compactStatus {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--color-text);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}

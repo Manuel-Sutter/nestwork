@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Bell, BellRing } from "lucide-react";
 import styles from "./PushRegistration.module.css";
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -14,7 +15,7 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray;
 }
 
-export function PushRegistration() {
+export function PushRegistration({ compact = false }: { compact?: boolean }) {
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
   const [status, setStatus] = useState<string | null>(null);
 
@@ -71,6 +72,22 @@ export function PushRegistration() {
     setStatus(null);
     const res = await fetch("/api/push/test", { method: "POST" });
     setStatus(res.ok ? "Test-Push gesendet." : "Test-Push fehlgeschlagen.");
+  }
+
+  if (compact) {
+    return (
+      <div className={styles.compactWrap}>
+        <button
+          className={styles.compactButton}
+          onClick={subscription ? sendTestPush : subscribeToPush}
+          aria-label={subscription ? "Test-Push senden" : "Push aktivieren"}
+          title={subscription ? "Test-Push senden" : "Push aktivieren"}
+        >
+          {subscription ? <BellRing size={18} /> : <Bell size={18} />}
+        </button>
+        {status && <p className={styles.compactStatus}>{status}</p>}
+      </div>
+    );
   }
 
   return (
