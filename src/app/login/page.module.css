@@ -14,7 +14,7 @@
   padding: 2rem;
   background: var(--color-card);
   border-radius: 20px;
-  box-shadow: 0 20px 40px -20px rgba(232, 135, 90, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 .title {

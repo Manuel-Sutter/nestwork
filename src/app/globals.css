@@ -5,6 +5,8 @@
   --color-text: #2c2420;
   --color-card: #ffffff;
   --color-border: #f0e2d6;
+  --shadow-card: 0 12px 32px -12px rgba(44, 36, 32, 0.18);
+  --shadow-card-hover: 0 18px 40px -14px rgba(44, 36, 32, 0.24);
 }
 
 * {

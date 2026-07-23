@@ -26,6 +26,7 @@ export default async function WhoAmIPage({
             className={styles.card}
             style={{ "--accent": user.color } as React.CSSProperties}
           >
+            <span className={styles.avatar}>{user.name.charAt(0)}</span>
             {user.name}
           </button>
         ))}
