@@ -20,6 +20,7 @@ export function Column({
   return (
     <div
       ref={setNodeRef}
+      data-status={status}
       className={`${styles.column} ${isOver ? styles.columnOver : ""}`}
     >
       <div className={styles.header}>

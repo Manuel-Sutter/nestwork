@@ -5,6 +5,7 @@
   min-width: 320px;
   flex: 1;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   background: var(--color-column-panel);
   border-radius: 20px;
   padding: 1rem;
@@ -17,8 +18,8 @@
 
 @media (max-width: 640px) {
   .column {
-    min-width: 90%;
-    flex: 0 0 90%;
+    min-width: 85%;
+    flex: 0 0 85%;
   }
 }
 
