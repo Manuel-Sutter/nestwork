@@ -5,6 +5,7 @@
   --color-accent-strong: #e8875a;
   --color-text: #2c2420;
   --color-card: #ffffff;
+  --color-card-elevated: #ffffff;
   --color-border: #f0e2d6;
   --color-muted: #8a7a6e;
   --color-muted-light: #b8a99b;
@@ -31,7 +32,8 @@
     --color-accent-strong: #f7b48a;
     --color-text: #f5ece4;
     --color-card: #2a211c;
-    --color-border: #3d322b;
+    --color-card-elevated: #3d3128;
+    --color-border: #4a3d33;
     --color-muted: #a8988a;
     --color-muted-light: #7a6c60;
     --color-error: #e0776a;

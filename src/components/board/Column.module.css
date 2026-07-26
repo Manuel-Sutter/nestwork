@@ -17,8 +17,8 @@
 
 @media (max-width: 640px) {
   .column {
-    min-width: 100%;
-    flex: 0 0 100%;
+    min-width: 90%;
+    flex: 0 0 90%;
   }
 }
 

@@ -44,9 +44,10 @@
 
 .scrollHint {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: calc(6.5rem + env(safe-area-inset-bottom));
   color: var(--color-muted-light);
   animation: breathe 2.4s ease-in-out infinite;
+  z-index: 1;
 }
 
 @keyframes breathe {

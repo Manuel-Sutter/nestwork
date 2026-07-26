@@ -8,7 +8,7 @@
   justify-content: center;
   gap: 1rem;
   background: linear-gradient(160deg, var(--color-bg), var(--color-bg-gradient-end));
-  animation: fadeOut 0.8s ease forwards;
+  animation: fadeOut 0.4s ease forwards;
 }
 
 .orb {

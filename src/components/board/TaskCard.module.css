@@ -11,6 +11,7 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
+  touch-action: none;
 }
 
 .card:hover {
