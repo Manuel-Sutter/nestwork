@@ -4,7 +4,12 @@ import { getSupabaseServerClient } from "@/lib/supabase";
 import { writeHistoryEntry } from "@/lib/history";
 import { isCategoryId } from "@/lib/categories";
 import { PRIORITIES } from "@/lib/priority";
-import { TASK_STATUSES } from "@/lib/taskStatus";
+import { TASK_STATUSES, type TaskStatus } from "@/lib/taskStatus";
+import { notifyOtherUser, getActorName } from "@/lib/notifications/notify";
+import {
+  taskAssignedNotification,
+  taskStatusChangedNotification,
+} from "@/lib/notifications/copy";
 
 export async function PATCH(
   request: NextRequest,
@@ -30,6 +35,9 @@ export async function PATCH(
 
   const updates: Record<string, unknown> = {};
 
+  if (typeof body?.title === "string" && body.title.trim()) {
+    updates.title = body.title.trim();
+  }
   if (typeof body?.status === "string" && TASK_STATUSES.includes(body.status)) {
     updates.status = body.status;
   }
@@ -98,6 +106,34 @@ export async function PATCH(
       field: "priority",
       oldValue: existing.priority,
       newValue: updates.priority,
+    });
+  }
+  if (updates.title && updates.title !== existing.title) {
+    await writeHistoryEntry(supabase, {
+      taskId: id,
+      actorId,
+      action: "edited",
+      field: "title",
+      oldValue: existing.title,
+      newValue: updates.title,
+    });
+  }
+
+  const actorName = await getActorName(supabase, actorId);
+  if (updates.status && updates.status !== existing.status) {
+    await notifyOtherUser(supabase, actorId, {
+      ...taskStatusChangedNotification(updated.title, updates.status as TaskStatus),
+      taskId: id,
+    });
+  }
+  if (
+    "assignee_id" in updates &&
+    updates.assignee_id !== existing.assignee_id &&
+    updates.assignee_id
+  ) {
+    await notifyOtherUser(supabase, actorId, {
+      ...taskAssignedNotification(actorName, updated.title),
+      taskId: id,
     });
   }
 

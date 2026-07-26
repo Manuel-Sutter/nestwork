@@ -4,6 +4,8 @@ import { getSupabaseServerClient } from "@/lib/supabase";
 import { writeHistoryEntry } from "@/lib/history";
 import { isCategoryId } from "@/lib/categories";
 import { PRIORITIES, type Priority } from "@/lib/priority";
+import { notifyOtherUser, getActorName } from "@/lib/notifications/notify";
+import { taskCreatedNotification, taskAssignedNotification } from "@/lib/notifications/copy";
 
 export async function POST(request: NextRequest) {
   const actorId = await getCurrentUserId();
@@ -43,6 +45,18 @@ export async function POST(request: NextRequest) {
     actorId,
     action: "created",
   });
+
+  const actorName = await getActorName(supabase, actorId);
+  await notifyOtherUser(supabase, actorId, {
+    ...taskCreatedNotification(actorName, title),
+    taskId: task.id,
+  });
+  if (assigneeId) {
+    await notifyOtherUser(supabase, actorId, {
+      ...taskAssignedNotification(actorName, title),
+      taskId: task.id,
+    });
+  }
 
   return NextResponse.json({ task });
 }

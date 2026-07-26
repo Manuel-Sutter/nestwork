@@ -16,7 +16,7 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 import { TASK_STATUSES, type TaskStatus } from "@/lib/taskStatus";
-import type { Task } from "@/lib/tasks";
+import type { Comment, Task } from "@/lib/tasks";
 import { Composer } from "./Composer";
 import { Column } from "./Column";
 import { TaskCard } from "./TaskCard";
@@ -65,6 +65,17 @@ export function Board({ tasks, users }: { tasks: Task[]; users: UserOption[] }) 
   function handleCreated(taskId: string) {
     setOpenTaskId(taskId);
     router.refresh();
+  }
+
+  function handleCommentAdded(taskId: string, comment: Comment) {
+    startTransition(() => {
+      const task = optimisticTasks.find((t) => t.id === taskId);
+      applyOptimistic({
+        id: taskId,
+        fields: { comments: [...(task?.comments ?? []), comment] },
+      });
+      router.refresh();
+    });
   }
 
   const sensors = useSensors(
@@ -122,6 +133,7 @@ export function Board({ tasks, users }: { tasks: Task[]; users: UserOption[] }) 
           users={users}
           onClose={() => setOpenTaskId(null)}
           onPatch={(fields) => patchTask(openTask.id, fields)}
+          onCommentAdded={(comment) => handleCommentAdded(openTask.id, comment)}
         />
       )}
       <DragOverlay>

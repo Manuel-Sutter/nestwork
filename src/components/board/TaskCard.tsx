@@ -59,7 +59,8 @@ export function TaskCard({ task, onOpen }: { task: Task; onOpen: () => void }) {
           )}
         </span>
         <span className={styles.commentCount}>
-          <MessageSquare size={14} />0
+          <MessageSquare size={14} />
+          {task.comments?.length ?? 0}
         </span>
       </div>
     </button>

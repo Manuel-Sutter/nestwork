@@ -32,9 +32,11 @@ create table if not exists comments (
   task_id uuid not null references tasks(id) on delete cascade,
   author_id uuid not null references users(id),
   body text not null,
+  reply_to_id uuid references comments(id) on delete cascade,
   created_at timestamptz not null default now()
 );
 create index if not exists comments_task_idx on comments (task_id, created_at);
+create index if not exists comments_reply_to_idx on comments (reply_to_id);
 
 create table if not exists task_history (
   id uuid primary key default gen_random_uuid(),
