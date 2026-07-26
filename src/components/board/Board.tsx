@@ -78,9 +78,14 @@ export function Board({ tasks, users }: { tasks: Task[]; users: UserOption[] }) 
     });
   }
 
+  // 150ms was too short - an ordinary swipe's brief initial dwell easily
+  // satisfied it, so swiping to the next column kept accidentally picking
+  // the card up instead of just scrolling. 400ms is long enough that a
+  // quick swipe never qualifies, while a deliberate press-and-hold still
+  // does - matches how Trello etc. distinguish "swipe" from "drag."
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 8 } })
+    useSensor(TouchSensor, { activationConstraint: { delay: 400, tolerance: 6 } })
   );
 
   function handleDragStart(event: DragStartEvent) {
