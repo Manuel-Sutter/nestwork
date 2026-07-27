@@ -28,12 +28,14 @@ export type Task = {
   updated_at: string;
   assignee: { name: string; color: string } | null;
   comments: Comment[];
+  position: number;
 };
 
 export async function getTasks(supabase: SupabaseClient): Promise<Task[]> {
   const { data } = await supabase
     .from("tasks")
     .select("*, assignee:assignee_id(name, color), comments(*, author:author_id(name, color))")
-    .order("created_at", { ascending: false });
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
   return (data ?? []) as unknown as Task[];
 }

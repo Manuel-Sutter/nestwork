@@ -1,6 +1,7 @@
 "use client";
 
-import { useDraggable } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { MessageSquare } from "lucide-react";
 import { CATEGORIES } from "@/lib/categories";
 import { PRIORITY_LABELS, type Priority } from "@/lib/priority";
@@ -13,15 +14,31 @@ const PRIORITY_CLASS: Record<Priority, string> = {
   high: styles.priorityHigh,
 };
 
-export function TaskCard({ task, onOpen }: { task: Task; onOpen: () => void }) {
-  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: task.id });
+export function TaskCard({
+  task,
+  onOpen,
+  dragOverlay = false,
+}: {
+  task: Task;
+  onOpen: () => void;
+  dragOverlay?: boolean;
+}) {
+  const { attributes, listeners, setNodeRef, isDragging, transform, transition } = useSortable({
+    id: task.id,
+    data: { status: task.status },
+    disabled: dragOverlay,
+  });
   const CategoryIcon = CATEGORIES[task.category].icon;
 
   return (
     <button
       ref={setNodeRef}
       className={styles.card}
-      style={{ opacity: isDragging ? 0.4 : 1 }}
+      style={{
+        opacity: isDragging ? 0.4 : 1,
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
       onClick={onOpen}
       {...listeners}
       {...attributes}

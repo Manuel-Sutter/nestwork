@@ -50,6 +50,9 @@ export async function PATCH(
   if ("assignee_id" in (body ?? {})) {
     updates.assignee_id = body.assignee_id;
   }
+  if (typeof body?.position === "number" && Number.isFinite(body.position)) {
+    updates.position = body.position;
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ error: "no valid fields to update" }, { status: 400 });

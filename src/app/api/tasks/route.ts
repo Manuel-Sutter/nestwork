@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
       priority,
       assignee_id: assigneeId,
       created_by: actorId,
+      position: Date.now(),
     })
     .select()
     .single();
