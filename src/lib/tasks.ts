@@ -3,6 +3,13 @@ import type { CategoryId } from "@/lib/categories";
 import type { Priority } from "@/lib/priority";
 import type { TaskStatus } from "@/lib/taskStatus";
 
+export type Reaction = {
+  id: string;
+  comment_id: string;
+  user_id: string;
+  emoji: string;
+};
+
 export type Comment = {
   id: string;
   task_id: string;
@@ -11,6 +18,7 @@ export type Comment = {
   reply_to_id: string | null;
   created_at: string;
   author: { name: string; color: string } | null;
+  reactions: Reaction[];
 };
 
 export type Task = {
@@ -34,7 +42,9 @@ export type Task = {
 export async function getTasks(supabase: SupabaseClient): Promise<Task[]> {
   const { data } = await supabase
     .from("tasks")
-    .select("*, assignee:assignee_id(name, color), comments(*, author:author_id(name, color))")
+    .select(
+      "*, assignee:assignee_id(name, color), comments(*, author:author_id(name, color), reactions:comment_reactions(*))"
+    )
     .order("position", { ascending: true })
     .order("created_at", { ascending: true });
   return (data ?? []) as unknown as Task[];

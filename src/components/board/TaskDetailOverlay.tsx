@@ -5,7 +5,7 @@ import { X, UserX } from "lucide-react";
 import { CATEGORIES, CATEGORY_IDS, type CategoryId } from "@/lib/categories";
 import { PRIORITIES, PRIORITY_LABELS, type Priority } from "@/lib/priority";
 import { TASK_STATUSES, TASK_STATUS_LABELS, type TaskStatus } from "@/lib/taskStatus";
-import type { Comment, Task } from "@/lib/tasks";
+import type { Comment, Reaction, Task } from "@/lib/tasks";
 import { Comments } from "./Comments";
 import styles from "./TaskDetailOverlay.module.css";
 
@@ -14,15 +14,19 @@ type UserOption = { id: string; name: string; color: string };
 export function TaskDetailOverlay({
   task,
   users,
+  currentUserId,
   onClose,
   onPatch,
   onCommentAdded,
+  onReactionToggled,
 }: {
   task: Task;
   users: UserOption[];
+  currentUserId: string | null;
   onClose: () => void;
   onPatch: (fields: Record<string, unknown>) => void;
   onCommentAdded: (comment: Comment) => void;
+  onReactionToggled: (commentId: string, reactions: Reaction[]) => void;
 }) {
   const [title, setTitle] = useState(task.title);
 
@@ -80,7 +84,9 @@ export function TaskDetailOverlay({
               {PRIORITY_LABELS[p]}
             </button>
           ))}
-          <span style={{ width: 1 }} />
+        </div>
+
+        <div className={styles.chipRow}>
           {TASK_STATUSES.map((s) => (
             <button
               key={s}
@@ -123,8 +129,10 @@ export function TaskDetailOverlay({
           taskId={task.id}
           comments={task.comments ?? []}
           users={users}
+          currentUserId={currentUserId}
           onCommentAdded={onCommentAdded}
           onPatch={onPatch}
+          onReactionToggled={onReactionToggled}
         />
       </div>
     </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { Comment } from "@/lib/tasks";
+import { Send } from "lucide-react";
+import type { Comment, Reaction } from "@/lib/tasks";
 import styles from "./Comments.module.css";
 
 type UserOption = { id: string; name: string; color: string };
@@ -21,14 +22,18 @@ export function Comments({
   taskId,
   comments,
   users,
+  currentUserId,
   onCommentAdded,
   onPatch,
+  onReactionToggled,
 }: {
   taskId: string;
   comments: Comment[];
   users: UserOption[];
+  currentUserId: string | null;
   onCommentAdded: (comment: Comment) => void;
   onPatch: (fields: Record<string, unknown>) => void;
+  onReactionToggled: (commentId: string, reactions: Reaction[]) => void;
 }) {
   const [newBody, setNewBody] = useState("");
   const [mentionQuery, setMentionQuery] = useState<string | null>(null);
@@ -61,6 +66,16 @@ export function Comments({
     } finally {
       setSubmitting(false);
     }
+  }
+
+  async function toggleReaction(commentId: string, emoji: string) {
+    const res = await fetch(`/api/comments/${commentId}/reactions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emoji }),
+    });
+    const data = await res.json();
+    if (data?.reactions) onReactionToggled(commentId, data.reactions);
   }
 
   function handleNewBodyChange(value: string) {
@@ -103,16 +118,24 @@ export function Comments({
             >
               Antworten
             </button>
-            {QUICK_EMOJIS.map((emoji) => (
-              <button
-                key={emoji}
-                className={styles.emojiButton}
-                onClick={() => postComment(emoji, comment.id)}
-                aria-label={`Mit ${emoji} antworten`}
-              >
-                {emoji}
-              </button>
-            ))}
+            {QUICK_EMOJIS.map((emoji) => {
+              const reactors = (comment.reactions ?? []).filter((r) => r.emoji === emoji);
+              const isActive = reactors.some((r) => r.user_id === currentUserId);
+              return (
+                <button
+                  key={emoji}
+                  className={`${styles.emojiButton} ${isActive ? styles.emojiButtonActive : ""}`}
+                  onClick={() => toggleReaction(comment.id, emoji)}
+                  aria-label={`Mit ${emoji} reagieren`}
+                  aria-pressed={isActive}
+                >
+                  {emoji}
+                  {reactors.length > 0 && (
+                    <span className={styles.reactionCount}>{reactors.length}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
         {!isReply && replyTargetId === comment.id && (
@@ -139,8 +162,9 @@ export function Comments({
                 setReplyBody("");
                 setReplyTargetId(null);
               }}
+              aria-label="Antwort senden"
             >
-              Senden
+              <Send size={16} />
             </button>
           </div>
         )}
@@ -178,7 +202,7 @@ export function Comments({
           </div>
         )}
         <input
-          className={styles.input}
+          className={`${styles.input} ${styles.composerInput}`}
           type="text"
           placeholder="Kommentieren... (@ zum Zuweisen)"
           value={newBody}
@@ -197,8 +221,9 @@ export function Comments({
             postComment(newBody, null);
             setNewBody("");
           }}
+          aria-label="Kommentar senden"
         >
-          Senden
+          <Send size={16} />
         </button>
       </div>
     </div>

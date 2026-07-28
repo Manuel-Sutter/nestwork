@@ -101,10 +101,15 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  opacity: 0.4;
+  transform: scale(0.88);
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .avatarChipSelected {
-  border-color: var(--color-text);
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 0 0 2px var(--color-card), 0 0 0 4px var(--color-accent);
 }
 
 .unassignedChip {
@@ -119,11 +124,17 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  opacity: 0.4;
+  transform: scale(0.88);
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .unassignedChipSelected {
+  opacity: 1;
+  transform: scale(1);
   background: var(--color-text);
   color: var(--color-card);
+  box-shadow: 0 0 0 2px var(--color-card), 0 0 0 4px var(--color-accent);
 }
 
 .chip {

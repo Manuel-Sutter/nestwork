@@ -75,12 +75,27 @@
 }
 
 .emojiButton {
-  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.1875rem;
+  border: 1px solid transparent;
   background: none;
   font-size: 0.9375rem;
   cursor: pointer;
-  padding: 0 0.125rem;
+  padding: 0.0625rem 0.25rem;
   line-height: 1;
+  border-radius: 999px;
+}
+
+.emojiButtonActive {
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  border-color: var(--color-accent);
+}
+
+.reactionCount {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-muted);
 }
 
 .replyInput {
@@ -99,20 +114,30 @@
   font-size: 0.875rem;
 }
 
+.composerInput {
+  padding: 0.875rem 1rem;
+  border-radius: 14px;
+}
+
 .composer {
   position: relative;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
 .sendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   border: none;
   background: var(--color-accent);
   color: white;
-  border-radius: 10px;
-  padding: 0 0.875rem;
-  font-weight: 600;
+  border-radius: 50%;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .sendButton:disabled {

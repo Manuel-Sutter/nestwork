@@ -17,7 +17,7 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 import { TASK_STATUSES, type TaskStatus } from "@/lib/taskStatus";
-import type { Comment, Task } from "@/lib/tasks";
+import type { Comment, Reaction, Task } from "@/lib/tasks";
 import { Composer } from "./Composer";
 import { Column } from "./Column";
 import { TaskCard } from "./TaskCard";
@@ -42,7 +42,15 @@ const collisionDetection: CollisionDetection = (args) => {
   return pointerCollisions.length > 0 ? pointerCollisions : rectIntersection(args);
 };
 
-export function Board({ tasks, users }: { tasks: Task[]; users: UserOption[] }) {
+export function Board({
+  tasks,
+  users,
+  currentUserId,
+}: {
+  tasks: Task[];
+  users: UserOption[];
+  currentUserId: string | null;
+}) {
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
@@ -79,6 +87,20 @@ export function Board({ tasks, users }: { tasks: Task[]; users: UserOption[] }) 
       applyOptimistic({
         id: taskId,
         fields: { comments: [...(task?.comments ?? []), comment] },
+      });
+      router.refresh();
+    });
+  }
+
+  function handleReactionToggled(taskId: string, commentId: string, reactions: Reaction[]) {
+    startTransition(() => {
+      const task = optimisticTasks.find((t) => t.id === taskId);
+      if (!task) return;
+      applyOptimistic({
+        id: taskId,
+        fields: {
+          comments: task.comments.map((c) => (c.id === commentId ? { ...c, reactions } : c)),
+        },
       });
       router.refresh();
     });
@@ -234,9 +256,13 @@ export function Board({ tasks, users }: { tasks: Task[]; users: UserOption[] }) 
         <TaskDetailOverlay
           task={openTask}
           users={users}
+          currentUserId={currentUserId}
           onClose={() => setOpenTaskId(null)}
           onPatch={(fields) => patchTask(openTask.id, fields)}
           onCommentAdded={(comment) => handleCommentAdded(openTask.id, comment)}
+          onReactionToggled={(commentId, reactions) =>
+            handleReactionToggled(openTask.id, commentId, reactions)
+          }
         />
       )}
       <DragOverlay>

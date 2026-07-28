@@ -23,7 +23,7 @@ export default async function HomePage() {
   return (
     <main>
       <Hero name={user?.name ?? "Unbekannt"} />
-      <Board tasks={tasks} users={users ?? []} />
+      <Board tasks={tasks} users={users ?? []} currentUserId={userId} />
     </main>
   );
 }
