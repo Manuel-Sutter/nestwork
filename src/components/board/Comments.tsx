@@ -68,14 +68,29 @@ export function Comments({
     }
   }
 
-  async function toggleReaction(commentId: string, emoji: string) {
-    const res = await fetch(`/api/comments/${commentId}/reactions`, {
+  async function toggleReaction(comment: Comment, emoji: string) {
+    if (!currentUserId) return;
+    const current = comment.reactions ?? [];
+    const alreadyReacted = current.some(
+      (r) => r.user_id === currentUserId && r.emoji === emoji
+    );
+    // Apply the toggle instantly - we already know exactly what it should
+    // look like, no need to wait on the round-trip before the pill reacts.
+    const optimistic = alreadyReacted
+      ? current.filter((r) => !(r.user_id === currentUserId && r.emoji === emoji))
+      : [
+          ...current,
+          { id: `optimistic-${emoji}`, comment_id: comment.id, user_id: currentUserId, emoji },
+        ];
+    onReactionToggled(comment.id, optimistic);
+
+    const res = await fetch(`/api/comments/${comment.id}/reactions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ emoji }),
     });
     const data = await res.json();
-    if (data?.reactions) onReactionToggled(commentId, data.reactions);
+    if (data?.reactions) onReactionToggled(comment.id, data.reactions);
   }
 
   function handleNewBodyChange(value: string) {
@@ -125,7 +140,7 @@ export function Comments({
                 <button
                   key={emoji}
                   className={`${styles.emojiButton} ${isActive ? styles.emojiButtonActive : ""}`}
-                  onClick={() => toggleReaction(comment.id, emoji)}
+                  onClick={() => toggleReaction(comment, emoji)}
                   aria-label={`Mit ${emoji} reagieren`}
                   aria-pressed={isActive}
                 >

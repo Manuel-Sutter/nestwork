@@ -64,7 +64,12 @@
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
-  padding-bottom: 0.125rem;
+  /* Setting only overflow-x makes overflow-y auto-compute to "auto" too
+     (a CSS quirk), clipping anything that overflows vertically - the
+     avatar/unassigned selection ring extends past the 32px circle, so it
+     needs this padding or its top/bottom gets cut off. */
+  padding: 6px 0.125rem;
+  margin: -6px -0.125rem;
 }
 
 .iconChip {

@@ -61,6 +61,15 @@ textarea {
   font-family: inherit;
 }
 
+/* Mobile browsers show a default gray tap-highlight overlay on any
+   tappable element the instant a touch starts, before our own active/
+   selected styles apply - reads as a brief flash of the underlying
+   background. We handle our own tap feedback via CSS, so switch it off. */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 html {
   color-scheme: light dark;
 }
